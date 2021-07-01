@@ -5,28 +5,19 @@ import {
   Route,
   Switch,
   Link,
-  BrowserRouter,
 } from 'react-router-dom';
+
+import { Container, Button, Box, Paper } from '@material-ui/core';
 import { UserContext } from '../../contexts/UserContext';
-import Company from './Company/Company';
 import ComboBox from '../../components/ComboBox/ComboBox';
-import {
-  Container,
-  Button,
-  Box,
-  TextField,
-  Paper,
-  Grid,
-} from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
 import TicketsContainer from '../../components/TicketsContainer/TicketsContainer';
 import useStyles from './styles';
 
-const Admin = () => {
-  const history = useHistory();
-  const { path, url } = useRouteMatch();
+import Company from './Company/Company';
 
-  console.log('path:', path, ' url: ', url);
+const AdminPage = () => {
+  const history = useHistory();
+  const { url } = useRouteMatch();
 
   const { user, dispatch } = useContext(UserContext);
 
@@ -67,6 +58,10 @@ const Admin = () => {
 
   return (
     <>
+      {/* <Link to={`${url}/company`}>Company</Link> */}
+      <Button onClick={() => history.push(`${url}/company`)} variant="outlined">
+        Company
+      </Button>
       <Container className={classes.container} maxWidth="xl">
         <Paper className={classes.paper}>
           <Button variant="outlined" fullWidth>
@@ -91,16 +86,18 @@ const Admin = () => {
       ) : (
         <div>waiting</div>
       )}
-
-      <Button onClick={() => history.push(`${url}/company`)} variant="outlined">
-        Company
-      </Button>
-      <Link to={`${url}/company`}>Company</Link>
-
-      <Route path={`${path}/company`}>
-        <Company />
-      </Route>
     </>
+  );
+};
+
+const Admin = () => {
+  const { path } = useRouteMatch();
+
+  return (
+    <Switch>
+      <Route path={`${path}`} component={AdminPage} exact />
+      <Route path={`${path}/company`} component={Company} />
+    </Switch>
   );
 };
 

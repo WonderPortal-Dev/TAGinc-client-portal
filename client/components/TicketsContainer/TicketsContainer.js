@@ -41,7 +41,7 @@ export default function TicketsContainer({ tickets }) {
             {openTickets.length} tickets
           </Typography>
         </AccordionSummary>
-        {pendingTickets.map((ticket) => (
+        {openTickets.map((ticket) => (
           <Ticket key={ticket.id} ticket={ticket} />
         ))}
       </Accordion>
