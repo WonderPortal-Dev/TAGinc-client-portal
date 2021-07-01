@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
 import { Grid, Paper, TextField, Button } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
+import { useHistory } from 'react-router-dom';
+import useStyles from './styles';
 
-const ComboBox = ({ selections, type, path }) => {
-  const companies = [
-    { name: 'Client 1' },
-    { name: 'Client 2' },
-    { name: 'Client 3' },
-    { name: 'Client 4' },
-  ];
-
-  const options = companies.map((el) => el.name);
-
+const ComboBox = ({ options, label, path }) => {
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
+  const history = useHistory();
+
+  // styles
+  const classes = useStyles();
+
+  const handleOnClick = () => {
+    console.log('value:', value);
+    console.log('path: ', `${path}/${value}`);
+    value ? history.push(`${path}/${value}`) : 'nothing selected';
+  };
 
   return (
-    <>
+    <Paper className={classes.paper}>
       <Grid container>
         <Grid item xs={12} md={9}>
           <Autocomplete
@@ -33,24 +36,22 @@ const ComboBox = ({ selections, type, path }) => {
             getOptionLabel={(option) => option}
             // style={{ width: 300 }}
             renderInput={(params) => (
-              <TextField {...params} label="Clients" variant="outlined" />
+              <TextField {...params} label={label} variant="outlined" />
             )}
           />
         </Grid>
         <Grid item xs={12} md={3}>
           <Button
-            onClick={() => {
-              value && console.log(value);
-            }}
+            onClick={handleOnClick}
             variant="outlined"
             fullWidth
             style={{ height: '56px' }}
           >
-            Open Client Page
+            Open {label} Page
           </Button>
         </Grid>
       </Grid>
-    </>
+    </Paper>
   );
 };
 

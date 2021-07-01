@@ -11,6 +11,8 @@ import { Container, Button, Box, Paper } from '@material-ui/core';
 import { UserContext } from '../../contexts/UserContext';
 import ComboBox from '../../components/ComboBox/ComboBox';
 import TicketsContainer from '../../components/TicketsContainer/TicketsContainer';
+import AddNewClient from '../../components/AddNewClient/AddNewClient';
+
 import useStyles from './styles';
 
 import Company from './Company/Company';
@@ -20,6 +22,8 @@ const AdminPage = () => {
   const { url } = useRouteMatch();
 
   const { user, dispatch } = useContext(UserContext);
+
+  const classes = useStyles();
 
   const tickets = [
     {
@@ -54,26 +58,33 @@ const AdminPage = () => {
     },
   ];
 
-  const classes = useStyles();
+  const companies = [
+    { name: 'Client 1' },
+    { name: 'Client 2' },
+    { name: 'Client 3' },
+    { name: 'Client 4' },
+  ];
 
   return (
     <>
       {/* <Link to={`${url}/company`}>Company</Link> */}
-      <Button onClick={() => history.push(`${url}/company`)} variant="outlined">
+      <Button
+        onClick={() => history.push(`${url}/company123`)}
+        variant="outlined"
+      >
         Company
       </Button>
+
       <Container className={classes.container} maxWidth="xl">
-        <Paper className={classes.paper}>
-          <Button variant="outlined" fullWidth>
-            Add New Client
-          </Button>
-        </Paper>
-        <Paper className={classes.paper}>
-          <ComboBox />
-        </Paper>
-        <Paper className={classes.paper}>
-          <TicketsContainer tickets={tickets} />
-        </Paper>
+        <AddNewClient />
+
+        <ComboBox
+          options={companies.map((el) => el.name)}
+          label={'Clients'}
+          path={url}
+        />
+
+        <TicketsContainer tickets={tickets} />
       </Container>
 
       {Array.isArray(user) ? (
@@ -96,7 +107,7 @@ const Admin = () => {
   return (
     <Switch>
       <Route path={`${path}`} component={AdminPage} exact />
-      <Route path={`${path}/company`} component={Company} />
+      <Route path={`${path}/:companyName`} component={Company} />
     </Switch>
   );
 };

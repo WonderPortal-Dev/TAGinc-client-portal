@@ -5,6 +5,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   Container,
+  Paper,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useStyles from './styles';
@@ -26,7 +27,7 @@ export default function TicketsContainer({ tickets }) {
   const closedTickets = tickets.filter((ticket) => ticket.status === 'closed');
 
   return (
-    <>
+    <Paper className={classes.paper}>
       <Accordion
         expanded={expanded === 'panel1'}
         onChange={handleChange('panel1')}
@@ -81,6 +82,6 @@ export default function TicketsContainer({ tickets }) {
           <Ticket key={ticket.id} ticket={ticket} />
         ))}
       </Accordion>
-    </>
+    </Paper>
   );
 }
