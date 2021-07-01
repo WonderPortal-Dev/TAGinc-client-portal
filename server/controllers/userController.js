@@ -7,14 +7,14 @@ const userController = {};
 
 userController.signIn = async (req, res, next) => {
 	//getting userInfo from req.body
-	const { email, password, type } = req.body;
+	const { email, password } = req.body;
 
 	try {
 		// ! find user by email in db, double check sql syntax
 		const result = await db.query('SELECT * FROM puser WHERE email=$1', [
 			email,
 		]);
-		const existingUser = result.rows[0];
+		const existingUser = result?.rows[0];
 		//console.log('existingUser in signIn is: ', existingUser);
 		//console.log('result is: ', result);
 		// if existingUser is undefine, return user not found
@@ -22,7 +22,10 @@ userController.signIn = async (req, res, next) => {
 			return res.status(404).json({ message: 'User not found' });
 
 		//after retrieving userInfo, compare bcrypt password
-		const isPasswordCorrect = await bcrypt.compare(password, result.password);
+		const isPasswordCorrect = await bcrypt.compare(
+			password,
+			existingUser.password
+		);
 
 		//if password is not correct, return incorrect password
 		if (!isPasswordCorrect)
@@ -59,7 +62,7 @@ userController.signUp = async (req, res, next) => {
 			email,
 		]);
 		//console.log('existingUser is: ', existingUser);
-		const existingUser = result.rows[0];
+		const existingUser = result?.rows[0];
 		//if user already existed, return email in use
 		if (existingUser)
 			return res.status(400).json({ message: 'email already used' });
