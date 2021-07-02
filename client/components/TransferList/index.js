@@ -110,11 +110,11 @@ export default function TransferList({
   return (
     <Paper className={classes.paper}>
       <Grid container spacing={2} justify="space-between">
-        <Grid item xs={5}>
+        <Grid item xs={12} sm={5}>
           <Typography>Avaliable Services</Typography>
           {customList(left)}
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={12} sm={2}>
           <Grid
             container
             direction="column"
@@ -145,7 +145,7 @@ export default function TransferList({
             </Button>
           </Grid>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={12} sm={5}>
           <Typography>{userName}'s Services</Typography>
           {customList(right)}
         </Grid>

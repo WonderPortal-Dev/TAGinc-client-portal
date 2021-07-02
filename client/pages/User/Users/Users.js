@@ -3,15 +3,16 @@ import { useParams, useRouteMatch } from 'react-router-dom';
 import { Container, Paper, Typography } from '@material-ui/core';
 import useStyles from './styles';
 
-import TicketsContainer from '../../../../components/TicketsContainer/TicketsContainer';
-import TransferList from '../../../../components/TransferList';
-import ComboBox from '../../../../components/ComboBox/ComboBox';
-import AddGeneralRequest from '../../../../components/AddGeneralRequest';
+import TicketsContainer from '../../../components/TicketsContainer/TicketsContainer';
+import TransferList from '../../../components/TransferList';
+import ComboBox from '../../../components/ComboBox/ComboBox';
+import AddGeneralRequest from '../../../components/AddGeneralRequest';
 
 const User = () => {
   const classes = useStyles();
   const { path } = useRouteMatch();
-  const { companyName, userName } = useParams();
+  const { userName } = useParams();
+  const companyName = 'TestCorp';
   const companyServices = [
     'desktop 1',
     'desktop 2',

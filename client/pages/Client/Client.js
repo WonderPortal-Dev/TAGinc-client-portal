@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
-import Users from './Users/Users';
+import Company from './Company/Company';
 
 const Client = () => {
   const { path } = useRouteMatch();
@@ -9,12 +9,12 @@ const Client = () => {
       <Route
         path={`${path}`}
         component={() => {
-          console.log('user redirect page');
+          console.log('client redirect page');
           return <></>;
         }}
         exact
       />
-      <Route path={`${path}/:userName`} component={Users} />
+      <Route path={`${path}/:companyName`} component={Company} />
     </Switch>
   );
 };
