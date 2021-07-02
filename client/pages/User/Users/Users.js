@@ -28,12 +28,6 @@ const User = () => {
         <Typography variant="h6">{`${companyName}`}</Typography>
       </Paper>
 
-      <TransferList
-        userName={userName}
-        companyServices={companyServices}
-        userServices={userServices}
-      />
-
       <ComboBox options={[]} label={'Service'} path={path} />
 
       <AddGeneralRequest />

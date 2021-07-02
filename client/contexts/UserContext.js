@@ -9,11 +9,13 @@ const UserContextProvider = (props) => {
 
   const getState = async () => {
     try {
+      console.log('context provider: ', localStorage.getItem('user'));
+
       // ! check backend routes and then update route here
       const GET_PATH = 'tickets/data';
 
       const { data } = await axios.get(`http://localhost:3000/${GET_PATH}`);
-      console.log('data: ', data);
+
       return dispatch({ type: 'UPDATE_STATE', payload: data });
     } catch (error) {
       console.error('err in getData', error);

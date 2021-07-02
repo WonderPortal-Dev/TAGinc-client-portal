@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-=======
 // what I need
 
->>>>>>> dev
 const user = {
   _id: '',
   name: '',
