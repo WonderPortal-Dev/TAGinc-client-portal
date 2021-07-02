@@ -47,7 +47,7 @@ const ComboBox = ({ options, label, path }) => {
             fullWidth
             style={{ height: '56px' }}
           >
-            Open {label} Page
+            Go to {label}
           </Button>
         </Grid>
       </Grid>

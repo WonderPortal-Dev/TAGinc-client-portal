@@ -7,10 +7,14 @@ import {
   Switch,
   useParams,
 } from 'react-router-dom';
-import { Button, Paper, Container } from '@material-ui/core';
+import { Button, Paper, Container, Typography } from '@material-ui/core';
 import ComboBox from '../../../components/ComboBox/ComboBox';
+import AddUser from '../../../components/AddUser/AddUser';
+import AddService from '../../../components/AddService/AddService';
+import TicketsContainer from '../../../components/TicketsContainer/TicketsContainer';
 
 import Users from './Users/Users';
+import Services from './Services/Services';
 import useStyles from './styles';
 
 const users = [
@@ -18,6 +22,12 @@ const users = [
   { name: 'Haobo' },
   { name: 'Damian' },
   { name: 'Randy' },
+];
+
+const services = [
+  { name: 'Desktop - HP19865QL' },
+  { name: 'Desktop - MAC19R65QL' },
+  { name: 'Router - RT19865QL' },
 ];
 
 const CompanyPage = () => {
@@ -29,20 +39,28 @@ const CompanyPage = () => {
   // styles
   const classes = useStyles();
   return (
-    <>
-      Admin &gt; {companyName}
-      <Button onClick={() => history.push(`${url}/randy`)} variant="outlined">
-        user
-      </Button>
-      {/* <Link to={`${url}/users`}>user</Link> */}
-      <Container className={classes.container} maxWidth="xl">
-        <ComboBox
-          options={users.map((el) => el.name)}
-          label={'Users'}
-          path={url}
-        />
-      </Container>
-    </>
+    <Container className={classes.container} maxWidth="xl">
+      <Paper className={classes.paper}>
+        <Typography variant="h4">{`${companyName}`}</Typography>
+      </Paper>
+
+      <AddUser />
+
+      <ComboBox
+        options={users.map((el) => el.name)}
+        label={'User'}
+        path={url}
+      />
+
+      <AddService />
+      <ComboBox
+        options={services.map((el) => el.name)}
+        label={'Service'}
+        path={`${url}/services`}
+      />
+
+      <TicketsContainer tickets={[]} />
+    </Container>
   );
 };
 
@@ -51,6 +69,7 @@ const Company = () => {
   return (
     <Switch>
       <Route path={`${path}`} component={CompanyPage} exact />
+      <Route path={`${path}/services`} component={Services} />
       <Route path={`${path}/:userName`} component={Users} />
     </Switch>
   );

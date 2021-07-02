@@ -59,45 +59,24 @@ const AdminPage = () => {
   ];
 
   const companies = [
-    { name: 'Client 1' },
+    { name: 'abcCorp' },
     { name: 'Client 2' },
     { name: 'Client 3' },
     { name: 'Client 4' },
   ];
 
   return (
-    <>
-      {/* <Link to={`${url}/company`}>Company</Link> */}
-      <Button
-        onClick={() => history.push(`${url}/company123`)}
-        variant="outlined"
-      >
-        Company
-      </Button>
+    <Container className={classes.container} maxWidth="xl">
+      <AddNewClient />
 
-      <Container className={classes.container} maxWidth="xl">
-        <AddNewClient />
+      <ComboBox
+        options={companies.map((el) => el.name)}
+        label={'Clients'}
+        path={url}
+      />
 
-        <ComboBox
-          options={companies.map((el) => el.name)}
-          label={'Clients'}
-          path={url}
-        />
-
-        <TicketsContainer tickets={tickets} />
-      </Container>
-
-      {Array.isArray(user) ? (
-        <div>
-          Admin
-          {user.map((user) => (
-            <Box key={user.rid}>{user.description}</Box>
-          ))}
-        </div>
-      ) : (
-        <div>waiting</div>
-      )}
-    </>
+      <TicketsContainer tickets={tickets} />
+    </Container>
   );
 };
 
