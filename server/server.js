@@ -3,9 +3,15 @@ const express = require('express');
 const app = express();
 // const apiRouter = require('./routes/api.js')
 const cors = require('cors');
-//import routes api
-const ticketsRouter = require('./routes/tickets');
-const userRouter = require('./routes/user');
+
+// clientRouter is for generic client functionalities 
+const clientRouter = require('./routes/genericClient');
+// userRouter is for signUp and signIn
+const userRouter = require('./routes/userAuth');
+// serviceAdmin is for serviceProviderAdmin functionalities
+const serviceAdmin = require('./routes/almightyAdmin');
+// ccompanyAdmin is for companyAdmin functionalities
+const companyAdmin = require('./routes/companyAdmin');
 
 const PORT = 3000;
 
@@ -18,8 +24,15 @@ app.use(cors());
 app.use(express.static(path.resolve(__dirname, '../build/')));
 
 //define route handlers
-app.use('/tickets', ticketsRouter);
+app.use('/client', clientRouter);
 app.use('/user', userRouter);
+app.use('/admin', serviceAdmin);
+app.use('/companyadmin',companyAdmin);
+
+
+app.get('/*', (req, res) => {
+	return res.status(200).sendFile(path.resolve(__dirname, '../build/index.html'));
+});
 
 app.get('/*', (req, res) => {
   return res
@@ -31,7 +44,6 @@ app.get('/*', (req, res) => {
 app.use('*', (req, res) => {
   return res.status(404).send("This is not the page you're looking for..");
 });
-
 // To add Global error handler- Catch all errors
 app.use((err, req, res, next) => {
   const defaultErr = {

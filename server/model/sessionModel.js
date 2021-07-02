@@ -1,7 +1,7 @@
 const { Pool } = require('pg');
 
 const connString =
-  "postgres://hgglllsd:EvJM37RkrWI82-8f6r9n8d4EtQhrZ_OT@kashin.db.elephantsql.com/hgglllsd";
+  "postgres://rztdehpz:JuUX33jwm1n3upeHODhhnpVjfm7wxagD@kashin.db.elephantsql.com/rztdehpz";
 
 const pool = new Pool({
     connectionString: connString
