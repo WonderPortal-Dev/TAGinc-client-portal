@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   devServer: {
     publicPath: '/',
+    historyApiFallback: true,
     port: 8080,
     proxy: {
       '/': {
@@ -20,6 +21,7 @@ module.exports = {
   mode: process.env.NODE_ENV,
   entry: './client/index.js',
   output: {
+    publicPath: '/',
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
   }, //end of output
@@ -40,11 +42,16 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react', {
-              plugins: ['@babel/plugin-proposal-class-properties'
-               , '@babel/plugin-transform-runtime'
+            presets: [
+              '@babel/preset-env',
+              '@babel/preset-react',
+              {
+                plugins: [
+                  '@babel/plugin-proposal-class-properties',
+                  '@babel/plugin-transform-runtime',
+                ],
+              },
             ],
-            },],
           },
         },
       },

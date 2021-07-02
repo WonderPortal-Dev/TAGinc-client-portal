@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   AppBar,
@@ -7,47 +7,21 @@ import {
   Button,
   Avatar,
   Dialog,
+  Grid,
 } from '@material-ui/core';
 import Auth from '../Auth/Auth';
 import useStyles from './styles';
-import decode from 'jwt-decode';
-import { signOut } from '../../services/authService';
 
 const Header = () => {
   const [openAuth, setOpenAuth] = useState(false);
 
   const classes = useStyles();
 
-  const logout = () => {
-    signOut();
-    // toggleAuth();
-  };
+  const logout = () => {};
+
+  const user = true;
 
   const toggleAuth = () => setOpenAuth((prev) => !prev);
-
-  const [userAuth, setUserAuth] = useState(
-    JSON.parse(localStorage.getItem('user'))
-  );
-
-  useEffect(() => {
-    const token = userAuth?.accessToken;
-
-    console.log('token: ', token);
-    if (token) {
-      const decodedToken = decode(token);
-
-      console.log('decodedToken: ', decodedToken);
-    }
-  }, []);
-
-  useEffect(() => {}, [openAuth]);
-  /** decoded Token
-   *email: "test4@test4.com"
-    exp: 1625100094
-    iat: 1625096494
-    type: "User"
-    uid: 11
-   */
 
   return (
     <AppBar className={classes.appBar} position="sticky" color="inherit">
@@ -56,8 +30,7 @@ const Header = () => {
           // component={Link}
           // to="/"
           className={classes.heading}
-          variant="h2"
-          align="center"
+          variant="h6"
         >
           TAGinc Client-Portal
         </Typography>
@@ -65,16 +38,30 @@ const Header = () => {
       </div>
 
       <Toolbar className={classes.toolbar}>
-        {userAuth ? (
-          <Button variant="contained" color="secondary" onClick={logout}>
-            Logout
-          </Button>
+        {user ? (
+          <div className={classes.profile}>
+            <Typography className={classes.username}>User Name</Typography>
+            <Typography className={classes.userCompany}>
+              &lt; Company Name
+            </Typography>
+            <Button variant="contained" color="secondary" onClick={logout}>
+              Logout
+            </Button>
+          </div>
         ) : (
           <Button variant="contained" color="primary" onClick={toggleAuth}>
             signIn
           </Button>
         )}
       </Toolbar>
+
+      {/* <Grid container>
+        <Grid item xs={12} md={6}>
+        </Grid>
+        <Grid item xs={12} md={6} >
+        </Grid>
+      </Grid> */}
+
       <Dialog open={openAuth} onBackdropClick={toggleAuth}>
         <Auth toggleAuth={toggleAuth} />
       </Dialog>
