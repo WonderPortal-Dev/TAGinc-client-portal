@@ -1,3 +1,5 @@
+//database map
+
 const companys = {
   _id: 'idObject',
   name: '',

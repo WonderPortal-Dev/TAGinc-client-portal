@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+// what I need
+
+>>>>>>> dev
 const user = {
   _id: '',
   name: '',
@@ -43,9 +48,9 @@ const user = {
 
 const admin = {
   _id: '',
-  companies: [
+  companys: [
     // -> all in the database
-    { id: company._id, name: company.name },
+    [company._id, company.name],
   ],
   services: [
     // -> all in the database
@@ -62,7 +67,7 @@ const admin = {
       ticketType,
       companyId,
       userId,
-      ticketStatus: '', // -> open, closed, pending
+      ticketStatus: '', // open, pending, closed
       ticketDetails: {
         // list of key values pairs based on the ticketType
       },

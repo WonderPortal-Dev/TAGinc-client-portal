@@ -5,7 +5,7 @@ const app = express();
 const cors = require('cors');
 //import routes api
 const ticketsRouter = require('./routes/tickets');
-// const userRouter = require('./routes/tickets');
+const userRouter = require('./routes/user');
 
 const PORT = 3000;
 
@@ -19,7 +19,7 @@ app.use(express.static(path.resolve(__dirname, '../build/')));
 
 //define route handlers
 app.use('/tickets', ticketsRouter);
-// app.use('/user', userRouter);
+app.use('/user', userRouter);
 
 app.get('/*', (req, res) => {
   return res
