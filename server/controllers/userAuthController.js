@@ -11,7 +11,7 @@ userController.signIn = async (req, res, next) => {
 
 	try {
 		// ! find user by email in db, double check sql syntax
-		const result = await db.query('SELECT * FROM puser WHERE email=$1', [
+		const result = await db.query('SELECT * FROM Users WHERE email=$1', [
 			email,
 		]);
 		const existingUser = result?.rows[0];
@@ -35,8 +35,10 @@ userController.signIn = async (req, res, next) => {
 		const token = jwt.sign(
 			{
 				email: existingUser.email,
-				uid: existingUser.uid,
-				type: existingUser.type,
+				userID: existingUser.id,
+				companyID: existingUser.companyID,
+				isCompanyAdmin: existingUser.isCompanyAdmin,
+				admin:existingUser.admin
 			},
 			'process.env.ACCESS_TOKEN_SECRET',
 			{ expiresIn: '1h' }
@@ -51,14 +53,20 @@ userController.signIn = async (req, res, next) => {
 	}
 };
 
+/*  
+isCompanyAdmin BOOLEAN DEFAULT FALSE,
+companyID INT,
+admin BOOLEAN DEFAULT FALSE,
+ */
+
 userController.signUp = async (req, res, next) => {
 	//getting userInfo from req.body
-	const { email, password, firstName, lastName, confirmPassword, type } =
+	const { email, password, firstName, lastName, confirmPassword } =
 		req.body;
 
 	try {
 		// ! find user by email in db, double check
-		const result = await db.query('SELECT * FROM puser WHERE email=$1', [
+		const result = await db.query('SELECT * FROM Users WHERE email=$1', [
 			email,
 		]);
 		//console.log('existingUser is: ', existingUser);
@@ -76,8 +84,8 @@ userController.signUp = async (req, res, next) => {
 
 		// ! create user into DB, double check sql syntax
 		const newUser = await db.query(
-			'INSERT INTO puser (first, last, email, password, type) VALUES ($1,$2,$3,$4,$5)',
-			[firstName, lastName, email, hashedPassword, type]
+			'INSERT INTO Users (first, last, email, password) VALUES ($1,$2,$3,$4)',
+			[firstName, lastName, email, hashedPassword]
 		);
 		return res.status(200).json({ message: 'inserted newUser' });
 
