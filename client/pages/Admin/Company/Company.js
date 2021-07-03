@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   useHistory,
   Route,
@@ -17,13 +17,7 @@ import TicketsContainer from '../../../components/TicketsContainer/TicketsContai
 import Users from './Users/Users';
 import Services from './Services/Services';
 import useStyles from './styles';
-
-const users = [
-  { name: 'Rosio' },
-  { name: 'Haobo' },
-  { name: 'Damian' },
-  { name: 'Randy' },
-];
+import { UserContext } from '../../../contexts/UserContext';
 
 const services = [
   { name: 'Desktop - HP19865QL' },
@@ -39,6 +33,17 @@ const CompanyPage = () => {
 
   // styles
   const classes = useStyles();
+
+  // state
+  const { user, dispatch } = useContext(UserContext);
+
+  const companyid = user.companies.filter((el) => el.name === companyName)[0]
+    .id;
+  console.log('companyid:', companyid);
+  const usernames = user.users
+    .filter((el) => el.companyid === companyid)
+    .map((el) => el.first);
+  console.log('usernames:', usernames);
   return (
     <Container className={classes.container} maxWidth="xl">
       <Paper className={classes.paper}>
@@ -47,11 +52,7 @@ const CompanyPage = () => {
 
       <AddUser />
 
-      <ComboBox
-        options={users.map((el) => el.name)}
-        label={'User'}
-        path={url}
-      />
+      <ComboBox options={usernames} label={'User'} path={url} />
 
       <AddService />
       <ComboBox

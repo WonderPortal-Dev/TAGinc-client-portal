@@ -33,7 +33,7 @@ const User = () => {
         userServices={userServices}
       />
 
-      <ComboBox options={[]} label={'Service'} path={path} />
+      <ComboBox options={[]} label={'Device'} path={path} />
 
       <AddGeneralRequest />
       <TicketsContainer tickets={[]} />

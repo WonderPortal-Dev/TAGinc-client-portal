@@ -22,7 +22,7 @@ const AdminPage = () => {
   const { url } = useRouteMatch();
 
   const { user, dispatch } = useContext(UserContext);
-
+  console.log(user);
   const classes = useStyles();
 
   const tickets = [
@@ -70,12 +70,12 @@ const AdminPage = () => {
       <AddNewClient />
 
       <ComboBox
-        options={companies.map((el) => el.name)}
+        options={user.companies.map((el) => el.name)}
         label={'Clients'}
         path={url}
       />
 
-      <TicketsContainer tickets={tickets} />
+      <TicketsContainer tickets={user.tickets} />
     </Container>
   );
 };

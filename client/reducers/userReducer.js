@@ -12,7 +12,7 @@ export const userReducer = (state, action) => {
 
       const decodedToken = decode(user?.accessToken);
       // console.log(decodedToken);
-      return { decodedToken };
+      return { ...decodedToken };
     case 'TEST':
       console.log('Test worked');
       return state;
