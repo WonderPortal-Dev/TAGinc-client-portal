@@ -1,11 +1,11 @@
 const { Pool } = require('pg');
 
 const connString =
-  "postgres://rztdehpz:JuUX33jwm1n3upeHODhhnpVjfm7wxagD@kashin.db.elephantsql.com/rztdehpz";
+  'postgres://rztdehpz:JuUX33jwm1n3upeHODhhnpVjfm7wxagD@kashin.db.elephantsql.com/rztdehpz';
 
 const pool = new Pool({
-    connectionString: connString
-})
+  connectionString: connString,
+});
 
 // pool.query("SELECT NOW()", (err, res) => {
 //   console.log('CONNECTED TO DATABASE!!!', err, res);
@@ -13,8 +13,8 @@ const pool = new Pool({
 // });
 
 module.exports = {
-    query: (text, params, callback) => {
-        console.log('Executed query: ', text);
-        return pool.query(text, params, callback);
-    }
+  query: (text, params, callback) => {
+    console.log('Executed query: ', text);
+    return pool.query(text, params, callback);
+  },
 };

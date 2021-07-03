@@ -18,17 +18,19 @@ const Home = () => {
   }, [user]);
 
   return (
-    <div>
-      Home page
-      <button onClick={() => history.push('/admin2')}>
-        ClientPage from first attempt
-      </button>
-      <button onClick={() => history.push('/admin')}>admin</button>
-      <button onClick={() => history.push('/client/ABCorp')}>client</button>
-      <button onClick={() => history.push('/user/randy')}>user</button>
-      <button onClick={() => console.log('user', user)}>show user</button>
-      <AuthButton />
-    </div>
+    <>
+      <div>
+        Home page
+        <button onClick={() => history.push('/admin2')}>
+          ClientPage from first attempt
+        </button>
+        <button onClick={() => history.push('/admin')}>admin</button>
+        <button onClick={() => history.push('/client/ABCorp')}>client</button>
+        <button onClick={() => history.push('/user/randy')}>user</button>
+        <button onClick={() => console.log('user', user)}>show user</button>
+        <AuthButton />
+      </div>
+    </>
   );
 };
 
