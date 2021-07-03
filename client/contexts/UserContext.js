@@ -5,24 +5,26 @@ import { userReducer } from '../reducers/userReducer';
 export const UserContext = createContext();
 
 const UserContextProvider = (props) => {
-  const [user, dispatch] = useReducer(userReducer, []);
+  const [user, dispatch] = useReducer(userReducer, {});
 
-  const getState = async () => {
-    try {
-      // ! check backend routes and then update route here
-      const GET_PATH = 'tickets/data';
+  // const getState = async () => {
+  //   try {
+  //     console.log('context provider: ', localStorage.getItem('user'));
 
-      const { data } = await axios.get(`http://localhost:3000/${GET_PATH}`);
-      console.log('data: ', data);
-      return dispatch({ type: 'UPDATE_STATE', payload: data });
-    } catch (error) {
-      console.error('err in getData', error);
-    }
-  };
+  //     // ! check backend routes and then update route here
+  //     const GET_PATH = 'tickets/data';
 
-  useEffect(() => {
-    getState();
-  }, []);
+  //     const { data } = await axios.get(`http://localhost:3000/${GET_PATH}`);
+
+  //     return dispatch({ type: 'UPDATE_STATE', payload: data });
+  //   } catch (error) {
+  //     console.error('err in getData', error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getState();
+  // }, []);
 
   return (
     <UserContext.Provider value={{ user, dispatch }}>

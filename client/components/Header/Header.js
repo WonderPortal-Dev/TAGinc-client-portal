@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import {
   AppBar,
   Typography,
@@ -8,6 +8,7 @@ import {
   Avatar,
   Dialog,
 } from '@material-ui/core';
+import { UserContext } from '../../contexts/UserContext';
 import Auth from '../Auth/Auth';
 import useStyles from './styles';
 import decode from 'jwt-decode';
@@ -15,19 +16,21 @@ import { signOut } from '../../services/authService';
 
 const Header = () => {
   const [openAuth, setOpenAuth] = useState(false);
+  const [userAuth, setUserAuth] = useState(
+    JSON.parse(localStorage.getItem('user'))
+  );
+  const { user, dispatch } = useContext(UserContext);
+  const history = useHistory();
 
   const classes = useStyles();
 
   const logout = () => {
+    setUserAuth((prev) => !prev);
     signOut();
-    // toggleAuth();
+    history.push('/');
   };
 
   const toggleAuth = () => setOpenAuth((prev) => !prev);
-
-  const [userAuth, setUserAuth] = useState(
-    JSON.parse(localStorage.getItem('user'))
-  );
 
   useEffect(() => {
     const token = userAuth?.accessToken;
@@ -38,9 +41,9 @@ const Header = () => {
 
       console.log('decodedToken: ', decodedToken);
     }
-  }, []);
+  }, [userAuth]);
 
-  useEffect(() => {}, [openAuth]);
+  // useEffect(() => {}, [openAuth]);
   /** decoded Token
    *email: "test4@test4.com"
     exp: 1625100094
@@ -56,7 +59,7 @@ const Header = () => {
           // component={Link}
           // to="/"
           className={classes.heading}
-          variant="h2"
+          variant="h6"
           align="center"
         >
           TAGinc Client-Portal
@@ -76,7 +79,7 @@ const Header = () => {
         )}
       </Toolbar>
       <Dialog open={openAuth} onBackdropClick={toggleAuth}>
-        <Auth toggleAuth={toggleAuth} />
+        <Auth toggleAuth={toggleAuth} setUserAuth={setUserAuth} />
       </Dialog>
     </AppBar>
   );

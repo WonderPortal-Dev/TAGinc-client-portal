@@ -1,7 +1,7 @@
 import React from 'react';
 import './assets/styles.css';
 import ClientPage from './components2/ClientPage/clientPage';
-import Header from './components2/Header/Header';
+import Header from './components/Header/Header';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Home from './pages/Home';
 import User from './pages/User/User';
@@ -14,17 +14,18 @@ import Client from './pages/Client/Client';
 const App = () => {
   return (
     <BrowserRouter>
-      <Header />
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <UserContextProvider>
+      <UserContextProvider>
+        <Header />
+        <Switch>
+          <Route path="/" exact component={Home} />
+
           <Route path="/admin" component={Admin} />
           <Route path="/admin2" exact component={ClientPage} />
           <Route path="/client" component={Client} />
           <Route path="/user" component={User} />
           {/* <Route path="/*" component={NotFound} /> */}
-        </UserContextProvider>
-      </Switch>
+        </Switch>
+      </UserContextProvider>
     </BrowserRouter>
   );
 };
