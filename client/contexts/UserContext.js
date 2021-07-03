@@ -5,7 +5,7 @@ import { userReducer } from '../reducers/userReducer';
 export const UserContext = createContext();
 
 const UserContextProvider = (props) => {
-  const [user, dispatch] = useReducer(userReducer, {});
+  const [user, dispatch] = useReducer(userReducer, { loggedIn: false });
 
   // const getState = async () => {
   //   try {

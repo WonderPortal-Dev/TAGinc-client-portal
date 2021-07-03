@@ -6,16 +6,18 @@ import { UserContext } from '../../contexts/UserContext';
 import { signIn, signOut } from '../../services/authService';
 import { test } from '../../services/userService';
 import axios from 'axios';
+import { Typography } from '@material-ui/core';
 
 const AuthButton = () => {
   const classes = useStyles();
   const history = useHistory();
   const { user, dispatch } = useContext(UserContext);
   const [isOpen, setOpen] = useState(false);
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     email: '',
     password: '',
-  });
+  };
+  const [formData, setFormData] = useState(initialFormData);
 
   // console.log(user);
   // useEffect(() => {}, []);
@@ -25,6 +27,8 @@ const AuthButton = () => {
   const handelLogout = (e) => {
     e.preventDefault();
     signOut();
+    dispatch({ type: 'SIGN_OUT' });
+    history.push('/');
   };
 
   const handelSignIn = async (e) => {
@@ -42,21 +46,14 @@ const AuthButton = () => {
     } catch (error) {
       console.log('err in authService signIn: ', error);
     }
-    console.log('user', user);
-    // signIn(formData);
-    console.log('hitting');
+    setFormData(initialFormData);
     toggelOpen();
     // dispatch({ type: 'SIGN_IN' });
   };
 
-  // useEffect(() => {
-  //   if (user !== {}) {
-  //     console.log(user.decodedToken.type);
-  //     history.push(`/${user.decodedToken.type}`);
-  //   }
-  // }, [user]);
+  useEffect(() => {}, [user]);
 
-  return false ? (
+  return user.signIn ? (
     <Button variant="outlined" onClick={handelLogout}>
       Log out
     </Button>
@@ -67,6 +64,7 @@ const AuthButton = () => {
       </Button>
       <Dialog open={isOpen} onBackdropClick={toggelOpen}>
         <Container component="main" maxWidth="xs">
+          <Typography variant="h4">Sign In</Typography>
           <form>
             <TextField
               name="email"
@@ -90,7 +88,9 @@ const AuthButton = () => {
                 setFormData({ ...formData, password: e.target.value })
               }
             />
-            <Button onClick={handelSignIn}>Sign In</Button>
+            <Button fullWidth onClick={handelSignIn}>
+              Sign In
+            </Button>
           </form>
         </Container>
       </Dialog>

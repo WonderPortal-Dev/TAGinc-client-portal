@@ -1,46 +1,36 @@
-import React, {useEffect} from 'react'
-import { Box, Typography, Button } from '@material-ui/core'
+import React, { useEffect } from 'react';
+import { Box, Typography, Button } from '@material-ui/core';
 
 import useStyles from './styles';
 
-
-const Ticket = ({ index, state, changeState}) => {
-
-  const toggleResolved = ()=>{
-    changeState(prev=>{
-      prev[index].resolved = !prev[index].resolved 
+const Ticket = ({ index, state, changeState }) => {
+  const toggleResolved = () => {
+    changeState((prev) => {
+      prev[index].resolved = !prev[index].resolved;
       return prev;
-    })
+    });
     console.log(state);
-  }
+  };
 
   useEffect(() => {
-        console.log('hit')
-  }, [state.resolved])
+    console.log('hit');
+  }, [state.resolved]);
 
   const classes = useStyles();
   return (
-    <Box 
-      border= {1}
-      borderColor = "lightgrey"
-      
-    >
-      <Typography 
-        variant='h6' 
-        className={classes.paper}        
-      >
-        {state.description}
+    <Box border={1} borderColor="lightgrey">
+      {/* <Typography variant="h6" className={classes.paper}>
+        Ticket Id : {state.id}
+      </Typography> */}
+      <Typography variant="h6" className={classes.paper}>
+        Ticket Id : {state.id}, Request : {state.details}
       </Typography>
-      {
-
-      }
-      <Button
-        onClick={toggleResolved}
-      >
+      {}
+      <Button onClick={toggleResolved}>
         {state.resolved ? 'Reopen' : 'Resolve'}
       </Button>
     </Box>
-  )
-}
+  );
+};
 
-export default Ticket
+export default Ticket;

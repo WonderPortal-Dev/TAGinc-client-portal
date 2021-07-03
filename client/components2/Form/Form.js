@@ -23,7 +23,8 @@ import useStyles from './styles';
 import axios from 'axios';
 import TicketTypes from '../TicketTypes/TicketTypes';
 
-const POST_PATH = 'tickets/message';
+//client/
+const POST_PATH = 'client/';
 
 const Form = () => {
   const formInitialState = {
@@ -43,7 +44,8 @@ const Form = () => {
   };
 
   const postInitialState = {
-    message: '',
+    userID: 3,
+    details: '',
   };
 
   const [postData, setPostData] = useState(postInitialState);
@@ -60,7 +62,7 @@ const Form = () => {
   // handleSubmit
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (postData.message === '') {
+    if (postData.details === '') {
       console.log('Nothing submitted');
       return;
     }
@@ -195,7 +197,7 @@ const Form = () => {
           rows={2}
           value={postData.message}
           onChange={(e) =>
-            setPostData({ ...postData, message: e.target.value })
+            setPostData({ ...postData, details: e.target.value })
           }
         />
 
