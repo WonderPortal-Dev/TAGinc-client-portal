@@ -31,15 +31,7 @@ const user = {
   ],
   tickets: [
     // -> Specific to the user
-    {
-      ticketid: '',
-      ticketStatus: '', // open, pending, closed
-      ticketType: '',
-      ticketDetails: {
-        // list of key values pairs based on the ticketType
-      },
-      ticketComments: [''],
-    },
+    { ticketid: '' },
   ],
 };
 
@@ -48,6 +40,10 @@ const admin = {
   companys: [
     // -> all in the database
     [company._id, company.name],
+  ],
+  users: [
+    // -> all in the database
+    [company._id, user._id, user.name],
   ],
   services: [
     // -> all in the database
