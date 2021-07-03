@@ -26,7 +26,7 @@ const Home = () => {
   useEffect(() => {
     // console.log('user', user.decodedToken);
 
-    if (user.type) {
+    if (user.signIn) {
       if (user.type === 'admin') history.push('/admin');
       if (user.type === 'client') history.push(`/client/${user.company.name}`);
       if (user.type === 'user') history.push(`/user/${user.name}`);
@@ -36,19 +36,17 @@ const Home = () => {
   return (
     <>
       <div>
-        Home page
         <button onClick={() => history.push('/admin2')}>
           ClientPage from first attempt
         </button>
-        <button onClick={() => history.push('/admin')}>admin</button>
+        {/* <button onClick={() => history.push('/admin')}>admin</button>
         <button onClick={() => history.push('/client/ABCorp')}>client</button>
-        <button onClick={() => history.push('/user/randy')}>user</button>
+        <button onClick={() => history.push('/user/randy')}>user</button> */}
         <button onClick={() => console.log('user', user)}>show user</button>
-        <AuthButton />
       </div>
       <CssBaseline />
       <div>
-        <Container maxWidth="md" height="25%" className={classes.background}>
+        <Container maxwidth="md" height="25%" className={classes.background}>
           <Typography variant="h2" align="center" color="textPrimary">
             The Allert Group
           </Typography>
@@ -65,7 +63,7 @@ const Home = () => {
         </Container>
       </div>
       <div>
-        <Container className={classes.cardGrid} maxWidth="md">
+        <Container className={classes.cardGrid} maxwidth="md">
           <Grid container spacing={4}>
             <Grid key={1} item xs={12} sm={6} md={4}>
               <Card className={classes.card}>
@@ -140,14 +138,14 @@ const Home = () => {
         </Container>
       </div>
       <div>
-        <Container maxWidth="md">
+        <Container maxwidth="md">
           <Contact />
         </Container>
       </div>
       <div>
-        <Container maxWidth="md">
+        <Container maxwidth="md">
           <footer className={classes.footer}>
-            <Grid container spacing={4} maxWidth="md">
+            <Grid container spacing={4} maxwidth="md">
               <Grid key={1} item xs={6} s={6} m={6}>
                 <Card>
                   <CardContent className={classes.cardContent}>

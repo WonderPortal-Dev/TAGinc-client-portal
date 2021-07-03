@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import useStyles from './styles';
 import {
   Button,
@@ -8,27 +9,51 @@ import {
   DialogTitle,
   DialogContent,
 } from '@material-ui/core';
+import axios from 'axios';
+import { UserContext } from '../../contexts/UserContext';
 
 const AddNewClient = () => {
+  const { user, dispatch } = useContext(UserContext);
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
+  const [submitted, setsubmitted] = useState(false);
+  const history = useHistory();
+  const { path } = useRouteMatch();
   const openDialog = () => setOpen(true);
   const closeDialog = () => setOpen(false);
 
   const [formData, setFormData] = useState({
-    companyName: '',
-    adminName: '',
-    contactNumber: '',
-    email: '',
-    address: '',
+    name: '',
+    subscriptionLvl_id: '',
   });
 
-  const HandleSubmit = (e) => {
-    e.preventDefault();
-
-    closeDialog();
+  const API_URL = 'http://localhost:3000/';
+  const createCompany = async (formData) => {
+    try {
+      const { data } = await axios.post(`${API_URL}admin`, formData);
+      console.log('newCompany is in createCompany: ', data);
+      dispatch({ type: 'ADD_COMPANY', payload: data });
+    } catch (err) {
+      console.log('err in createCompany is: ', err);
+    }
   };
+
+  let compName;
+
+  const HandleSubmit = async (e) => {
+    e.preventDefault();
+    compName = formData.name;
+    await createCompany(formData);
+    console.log(' user after update:', user);
+    console.log('after createCompany');
+    closeDialog();
+    history.push(`${path}/${compName}`);
+  };
+
+  // useEffect(() => {
+  //   history.push(`${path}/${compName}`);
+  // }, [submitted]);
 
   return (
     <>
@@ -45,12 +70,21 @@ const AddNewClient = () => {
               name="companyName"
               label="Company Name"
               variant="outlined"
-              value={formData.companyName}
+              value={formData.name}
               onChange={(e) =>
-                setFormData({ ...formData, companyName: e.target.value })
+                setFormData({ ...formData, name: e.target.value })
               }
             />
             <TextField
+              name="SubcriptionLvl"
+              label="subscription lvl"
+              variant="outlined"
+              value={formData.subscriptionLvl_id}
+              onChange={(e) =>
+                setFormData({ ...formData, subscriptionLvl_id: e.target.value })
+              }
+            />
+            {/* <TextField
               name="adminName"
               label="Name of Admin"
               variant="outlined"
@@ -87,7 +121,7 @@ const AddNewClient = () => {
               onChange={(e) =>
                 setFormData({ ...formData, address: e.target.value })
               }
-            />
+            /> */}
 
             <Button type="submit" variant="outlined">
               Submit

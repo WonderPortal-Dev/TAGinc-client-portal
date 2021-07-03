@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import { UserContext } from '../../contexts/UserContext';
 import Auth from '../Auth/Auth';
+import AuthButton from '../AuthButton';
 import useStyles from './styles';
 import decode from 'jwt-decode';
 import { signOut } from '../../services/authService';
@@ -24,24 +25,24 @@ const Header = () => {
 
   const classes = useStyles();
 
-  const logout = () => {
-    setUserAuth((prev) => !prev);
-    signOut();
-    history.push('/');
-  };
+  // const logout = () => {
+  //   setUserAuth((prev) => !prev);
+  //   signOut();
+  //   history.push('/');
+  // };
 
-  const toggleAuth = () => setOpenAuth((prev) => !prev);
+  // const toggleAuth = () => setOpenAuth((prev) => !prev);
 
-  useEffect(() => {
-    const token = userAuth?.accessToken;
+  // useEffect(() => {
+  //   const token = userAuth?.accessToken;
 
-    console.log('token: ', token);
-    if (token) {
-      const decodedToken = decode(token);
+  //   console.log('token: ', token);
+  //   if (token) {
+  //     const decodedToken = decode(token);
 
-      console.log('decodedToken: ', decodedToken);
-    }
-  }, [userAuth]);
+  //     console.log('decodedToken: ', decodedToken);
+  //   }
+  // }, [userAuth]);
 
   // useEffect(() => {}, [openAuth]);
   /** decoded Token
@@ -67,7 +68,7 @@ const Header = () => {
         {/* <img src={logo} alt="logo" height="60" /> */}
       </div>
 
-      <Toolbar className={classes.toolbar}>
+      {/* <Toolbar className={classes.toolbar}>
         {userAuth ? (
           <Button variant="contained" color="secondary" onClick={logout}>
             Logout
@@ -80,7 +81,8 @@ const Header = () => {
       </Toolbar>
       <Dialog open={openAuth} onBackdropClick={toggleAuth}>
         <Auth toggleAuth={toggleAuth} setUserAuth={setUserAuth} />
-      </Dialog>
+      </Dialog> */}
+      <AuthButton />
     </AppBar>
   );
 };

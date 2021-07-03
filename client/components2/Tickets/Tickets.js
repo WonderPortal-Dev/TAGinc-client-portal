@@ -4,16 +4,17 @@ import useStyles from './styles';
 import Ticket from './Ticket/Ticket';
 import axios from 'axios';
 
-const GET_PATH = 'tickets/data';
+//admin/alltickets
+const GET_PATH = 'admin/alltickets';
 
 const Tickets = () => {
   const dataInitialState = [
     {
       msgId: 1,
-      message: 'Message 1',
+      details: 'Message 1',
     },
-    { message: 'Message 2' },
-    { message: 'Message 3' },
+    { details: 'Message 2' },
+    { details: 'Message 3' },
   ];
 
   const [allData, setAllData] = useState(dataInitialState);

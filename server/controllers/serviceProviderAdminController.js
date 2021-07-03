@@ -17,8 +17,7 @@ const serviceProviderAdminController = {};
 
 // admin sees all tickets in database, with user information
 serviceProviderAdminController.getAllTickets = async (req, res) => {
-  const getAllTicketsQuery =
-    'SELECT Users.* FROM Users LEFT JOIN tickets ON tickets.user_id=Users.id;';
+  const getAllTicketsQuery = 'SELECT tickets.* FROM tickets;';
   const { rows } = await db.query(getAllTicketsQuery); //rows array of objs
   res.status(200).json(rows.reverse());
 };
@@ -29,16 +28,17 @@ serviceProviderAdminController.addCompany = async (req, res) => {
   //crate SQL to insert new company record
   //Stretch - does company already exist?
   try {
-    const { Name, SubscriptionLvl_id } = req.body;
+    console.log(req.body);
+    const { name, subscriptionLvl_id } = req.body;
     // ! double check sql string
     const newCompany = await db.query(
       'INSERT INTO companies (Name, SubscriptionLvl_id) VALUES($1, $2) RETURNING *',
-      [Name, SubscriptionLvl_id]
+      [name, subscriptionLvl_id]
     );
 
-    res.json(newCompany.rows[0]);
+    return res.json(newCompany.rows[0]);
   } catch (err) {
-    console.log('err in serviceProviderAdminController.updateCompany: ', err);
+    console.log('err in serviceProviderAdminController.addCompany: ', err);
   }
 }; // end of addCompany
 
@@ -48,11 +48,11 @@ serviceProviderAdminController.updateCompany = async (req, res) => {
     //company id
     const companyID = req.params.id;
     //
-    const { SubscriptionLvl_id } = req.body;
+    const { subscriptionLvl_id } = req.body;
     // ! double check sql string
     const updateCompany = await db.query(
       'UPDATE companies SET SubscriptionLvl_id = $1 WHERE companies.id = $2 RETURNING *',
-      [SubscriptionLvl_id, companyID]
+      [subscriptionLvl_id, companyID]
     );
     res.json('company updated');
   } catch (err) {

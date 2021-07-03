@@ -114,7 +114,7 @@ export const deleteUser = async (userID) => {
 // require Name, SubscriptionLvl_id
 export const createCompany = async (formData) => {
   try {
-    const newCompany = await axios.post(`${API_URL}admin`, formData);
+    const newCompany = await axios.post(`${API_URL}admin/`, formData);
     console.log('newCompany is in createCompany: ', newCompany);
   } catch (err) {
     console.log('err in createCompany is: ', err);
