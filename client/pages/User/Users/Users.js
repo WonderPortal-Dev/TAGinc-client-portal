@@ -28,7 +28,7 @@ const User = () => {
         <Typography variant="h6">{`${companyName}`}</Typography>
       </Paper>
 
-      <ComboBox options={[]} label={'Service'} path={path} />
+      <ComboBox options={[]} label={'device'} path={path} />
 
       <AddGeneralRequest />
       <TicketsContainer tickets={[]} />

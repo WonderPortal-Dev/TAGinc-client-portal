@@ -8,7 +8,7 @@ const Ticket = ({ ticket }) => {
   return (
     <Box border={1} borderColor="lightgrey">
       <Typography variant="h6" className={classes.paper}>
-        {ticket.description}
+        {ticket.details}
       </Typography>
       {}
     </Box>

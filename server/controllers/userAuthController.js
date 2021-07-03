@@ -79,14 +79,34 @@ userController.signIn = async (req, res, next) => {
       return res.status(400).json({ message: 'Incorrect Password' });
 
     if (existingUser.type === 'client') {
+      // console.log('existingUser is: ', existingUser);
       const company = await db.query(
-        `SELECT * FROM Companies where id=${existingUser.companyID}`
+        `SELECT * FROM Companies where id=${existingUser.companyid}`
       );
       const companyUsers = await db.query(
-        `SELECT * FROM users where companyID=${existingUser.companyID}`
+        `SELECT * FROM users where companyID=${existingUser.companyid}`
       );
       const companyDevices = await db.query(
-        `SELECT * FROM devices where company_id=${existingUser.companyID}`
+        `SELECT * FROM devices where company_id=${existingUser.companyid}`
+      );
+      const baseServices = await db.query(
+        `SELECT baseServices.name, baseServices.description FROM baseServices JOIN baseServicesSubscriptions ON baseServicesSubscriptions.baseservice_id = baseServices.id WHERE baseServicesSubscriptions.subscription_id=${company.rows[0].subscriptionlvl_id}`
+      );
+      // const companyTickets = companyUsers.rows.map(async (el) => {
+      //   ticketBunch = await db.query(
+      //     `SELECT * FROM tickets where user_id=${el.id}`
+      //   );
+      //   console.log('ticketBunch is :', ticketBunch.rows);
+      //   return ticketBunch.rows;
+      // });
+
+      // console.log('companyTickets is: ', companyTickets);
+      // Promise.all(companyTickets).then((val) => {
+      //   console.log('companyTickets array val is: ', val);
+      // });
+
+      const companyTickets = await db.query(
+        `SELECT * FROM tickets where company_id=${existingUser.companyid}`
       );
 
       //JWT token, user session will expire in 1 hour
@@ -94,10 +114,12 @@ userController.signIn = async (req, res, next) => {
         {
           name: `${existingUser.first} ${existingUser.last}`,
           userID: existingUser.id,
-          company: company.rows,
+          company: company.rows[0], // maybe not rows
           companyUsers: companyUsers.rows,
           companyDevices: companyDevices.rows,
           type: existingUser.type,
+          baseServices: baseServices.rows,
+          companyTickets: companyTickets.rows,
         },
         'process.env.ACCESS_TOKEN_SECRET',
         { expiresIn: '1h' }
@@ -112,6 +134,11 @@ userController.signIn = async (req, res, next) => {
       // const devices = await db.query('SELECT * FROM devices');
       const deviceServices = await db.query('SELECT * FROM deviceServices');
       const baseServices = await db.query('SELECT * FROM baseServices');
+
+      const baseServicesSubscriptions = await db.query(
+        `SELECT * from baseServicesSubscriptions`
+      );
+
       //JWT token, user session will expire in 1 hour
       const token = jwt.sign(
         {
@@ -122,6 +149,7 @@ userController.signIn = async (req, res, next) => {
           type: existingUser.type,
           deviceServices: deviceServices.rows,
           baseServices: baseServices.rows,
+          baseServicesSubscriptions: baseServicesSubscriptions.rows,
         },
         'process.env.ACCESS_TOKEN_SECRET',
         { expiresIn: '1h' }
@@ -131,12 +159,23 @@ userController.signIn = async (req, res, next) => {
     }
     if (existingUser.type === 'user') {
       //JWT token, user session will expire in 1 hour
+      const userTickets = await db.query(
+        `SELECT * FROM tickets where user_id=${existingUser.id}`
+      );
+      const userDevices = await db.query(
+        `SELECT * FROM devices where usr_id=${existingUser.id}`
+      );
+      const company = await db.query(
+        `SELECT * FROM companies where id=${existingUser.companyid}`
+      );
       const token = jwt.sign(
         {
-          email: existingUser.email,
-          userID: existingUser.id,
-          companyID: existingUser.companyID,
+          existingUser,
           type: existingUser.type,
+          name: `${existingUser.first} ${existingUser.last}`,
+          companyName: company.rows[0].name,
+          userTickets: userTickets.rows,
+          userDevices: userDevices.rows,
         },
         'process.env.ACCESS_TOKEN_SECRET',
         { expiresIn: '1h' }

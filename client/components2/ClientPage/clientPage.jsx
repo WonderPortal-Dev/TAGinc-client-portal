@@ -21,9 +21,13 @@ const ClientPage = () => {
     password: '',
     confirmPassword: '',
     type: '',
+    companyID: 15,
   });
 
+  // 14, 15, 16, 17
+
   const handleSubmit = (e) => {
+    console.log(signUpInfo);
     e.preventDefault();
     signUp(signUpInfo);
   };
@@ -94,6 +98,7 @@ const ClientPage = () => {
             setSignUpInfo({ ...signUpInfo, type: e.target.value })
           }
         />
+
         <Button type="submit">Submit</Button>
       </form>
 

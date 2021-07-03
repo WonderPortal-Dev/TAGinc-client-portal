@@ -51,7 +51,7 @@ serviceProviderAdminController.updateCompany = async (req, res) => {
     const { SubscriptionLvl_id } = req.body;
     // ! double check sql string
     const updateCompany = await db.query(
-      'UPDATE companies SET SubscriptionLvl_id = $1 WHERE companies.id = $2',
+      'UPDATE companies SET SubscriptionLvl_id = $1 WHERE companies.id = $2 RETURNING *',
       [SubscriptionLvl_id, companyID]
     );
     res.json('company updated');

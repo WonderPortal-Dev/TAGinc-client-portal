@@ -8,9 +8,15 @@ const Home = () => {
   const history = useHistory();
 
   useEffect(() => {
-    console.log('user', user.decodedToken);
-    if (user.decodedToken) history.push(`/${user.decodedToken.type}`);
+    // console.log('user', user.decodedToken);
+
+    if (user.type) {
+      if (user.type === 'admin') history.push('/admin');
+      if (user.type === 'client') history.push(`/client/${user.company.name}`);
+      if (user.type === 'user') history.push(`/user/${user.name}`);
+    }
   }, [user]);
+
   return (
     <div>
       Home page

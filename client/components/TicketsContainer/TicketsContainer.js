@@ -20,7 +20,7 @@ export default function TicketsContainer({ tickets }) {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const openTickets = tickets.filter((ticket) => ticket.status === 'open');
+  const openTickets = tickets.filter((ticket) => ticket.status === 'Open');
   const pendingTickets = tickets.filter(
     (ticket) => ticket.status === 'pending'
   );
